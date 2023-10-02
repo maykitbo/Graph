@@ -1,0 +1,9 @@
+{
+    "C_Cpp.errorSquiggles": "enabled",
+    "files.associations": {
+        "*.json": "cpp",
+        "*.h": "cpp",
+        "*.md": "juliamarkdown",
+        "typeinfo": "cpp"
+    }
+}

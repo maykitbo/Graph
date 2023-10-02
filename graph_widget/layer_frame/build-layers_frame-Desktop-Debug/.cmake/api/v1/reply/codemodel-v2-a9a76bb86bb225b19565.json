@@ -1,0 +1,69 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.5"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "layers_frame",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "layers_frame::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-layers_frame-Debug-83d8cd8a229a9805f3c3.json",
+					"name" : "layers_frame",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "layers_frame_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-layers_frame_autogen-Debug-0dfb147b8513cea92603.json",
+					"name" : "layers_frame_autogen",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/alexey/projects/algorithmic_trading/src/view/graph_widget/layer_frame/build-layers_frame-Desktop-Debug",
+		"source" : "/home/alexey/projects/algorithmic_trading/src/view/graph_widget/layer_frame/layers_frame"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}

@@ -1,0 +1,4 @@
+/home/alexey/projects/algorithmic_trading/src/view/graph_widget/layer_frame/build-background_layer_frame-Desktop-Debug/CMakeFiles/background_layer_frame.dir
+/home/alexey/projects/algorithmic_trading/src/view/graph_widget/layer_frame/build-background_layer_frame-Desktop-Debug/CMakeFiles/edit_cache.dir
+/home/alexey/projects/algorithmic_trading/src/view/graph_widget/layer_frame/build-background_layer_frame-Desktop-Debug/CMakeFiles/rebuild_cache.dir
+/home/alexey/projects/algorithmic_trading/src/view/graph_widget/layer_frame/build-background_layer_frame-Desktop-Debug/CMakeFiles/background_layer_frame_autogen.dir
