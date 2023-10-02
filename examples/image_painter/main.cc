@@ -2,7 +2,7 @@
 
 int main(int argc, char *argv[])
 {
-    s21::ImagePainter painter(QSize(10000, 10000), argc, argv);
+    s21::ImagePainter painter(QSize(1000, 1000), argc, argv);
 
     s21::Graph::data_t data1 = {
         {0, 0},
