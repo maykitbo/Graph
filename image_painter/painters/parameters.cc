@@ -1,35 +1,47 @@
 #include "parameters.h"
 
-using namespace s21;
+using namespace Graph;
 
-GraphParams::GraphParams(QSize size)
+Parameters::Parameters(QSize size)
     : width(size.width())
     , height(size.height())
     , graph_width(size.width() - left_indent - right_indent)
     , graph_height(size.height() - top_indent - bottom_indent)
     {}
 
-qreal GraphParams::XToImageCords(double x) const noexcept
-{
-    return (x * x_factor) + dx;
-}
+qreal Parameters::XToImageCords(double x) const noexcept
+    { return (x * x_factor) + dx; }
 
-qreal GraphParams::YToImageCords(double y) const noexcept
-{
-    return (y * y_factor) + dy;
-}
+qreal Parameters::YToImageCords(double y) const noexcept
+    { return (y * y_factor) + dy; }
 
-double GraphParams::XToDataCords(qreal x) const noexcept
-{
-    return (x - dx) / x_factor;
-}
+double Parameters::XToDataCords(qreal x) const noexcept
+    { return (x - left_indent - dx) / x_factor; }
 
-double GraphParams::YToDataCords(qreal y) const noexcept
-{
-    return (y - dy) / y_factor;
-}
+double Parameters::YToDataCords(qreal y) const noexcept
+    { return (y - top_indent - dy) / y_factor; }
 
-void GraphParams::Resize(qreal w, qreal h)
+
+qreal Parameters::XStepToImageCords(double step) const noexcept
+    { return step * x_factor; }
+
+double Parameters::XStepToDataCords(qreal step) const noexcept
+    { return step / x_factor; }
+
+qreal Parameters::YStepToImageCords(double step) const noexcept
+    { return -1 * step * y_factor; }
+
+double Parameters::YStepToDataCords(qreal step) const noexcept
+    { return -1 * step / y_factor; }
+
+
+qreal Parameters::GetXDistance() const noexcept
+    { return x_max - x_min; }
+
+qreal Parameters::GetYDistance() const noexcept
+    { return y_max - y_min; }
+
+void Parameters::Resize(qreal w, qreal h)
 {
     height = h;
     width = w;
@@ -49,13 +61,13 @@ void GraphParams::Resize(qreal w, qreal h)
     graph_width = gw;
 }
 
-void GraphParams::SetMinMax(qreal min_x, qreal max_x, qreal min_y, qreal max_y)
+void Parameters::SetMinMax(qreal min_x, qreal max_x, qreal min_y, qreal max_y)
 {
     SetYMinMax(min_y, max_y);
     SetXMinMax(min_x, max_x);
 }
 
-void GraphParams::SetYMinMax(qreal min_y, qreal max_y)
+void Parameters::SetYMinMax(qreal min_y, qreal max_y)
 {
     qreal qy = y_max - y_min;
     y_min = min_y;
@@ -66,7 +78,7 @@ void GraphParams::SetYMinMax(qreal min_y, qreal max_y)
     SetDy(dy);
 }
 
-void GraphParams::SetXMinMax(qreal min_x, qreal max_x)
+void Parameters::SetXMinMax(qreal min_x, qreal max_x)
 {
     qreal qx = x_max - x_min;
     x_min = min_x;
@@ -77,7 +89,7 @@ void GraphParams::SetXMinMax(qreal min_x, qreal max_x)
     SetDx(dx);
 }
 
-void GraphParams::AddMinMax(qreal min_x, qreal max_x, qreal min_y, qreal max_y)
+void Parameters::AddMinMax(qreal min_x, qreal max_x, qreal min_y, qreal max_y)
 {
     if (x_max - x_min <= 0)
     {
@@ -99,17 +111,17 @@ void GraphParams::AddMinMax(qreal min_x, qreal max_x, qreal min_y, qreal max_y)
     }
 }
 
-void GraphParams::SetDx(qreal candidate)
+void Parameters::SetDx(qreal candidate)
 {
     dx = std::max(std::min(candidate, -1.0 * x_min * x_factor), graph_width - x_max * x_factor);
 }
 
-void GraphParams::SetDy(qreal candidate)
+void Parameters::SetDy(qreal candidate)
 {
     dy = std::min(std::max(candidate, graph_height - y_min * y_factor), -1.0 * y_max * y_factor);
 }
 
-void GraphParams::SetFactors()
+void Parameters::SetFactors()
 {
     x_factor = graph_width / (x_max - x_min);
     dx = -1.0 * x_min * x_factor;
@@ -118,41 +130,32 @@ void GraphParams::SetFactors()
     dy = graph_height - y_min * y_factor;
 }
 
-QSize GraphParams::GraphSize() const noexcept
-{
-    return QSize(graph_width, graph_height);
-}
+QSize Parameters::GraphSize() const noexcept
+    { return QSize(graph_width, graph_height); }
 
-qreal GraphParams::Bottom() const noexcept
-{
-    return height - bottom_indent;
-}
-qreal GraphParams::Top() const noexcept
-{
-    return top_indent;
-}
-qreal GraphParams::Left() const noexcept
-{
-    return left_indent;
-}
-qreal GraphParams::Right() const noexcept
-{
-    return width - right_indent;
-}
+qreal Parameters::Bottom() const noexcept
+    { return height - bottom_indent; }
 
-QSize GraphParams::Size() const noexcept
-{
-    return QSize(width, height);
-}
+qreal Parameters::Top() const noexcept
+    { return top_indent; }
+
+qreal Parameters::Left() const noexcept
+    { return left_indent; }
+
+qreal Parameters::Right() const noexcept
+    { return width - right_indent; }
+
+QSize Parameters::Size() const noexcept
+    { return QSize(width, height); }
 
 
-void GraphParams::Move(qreal x, qreal y)
+void Parameters::Move(qreal x, qreal y)
 {
     SetDx(dx + x);
     SetDy(dy + y);
 }
 
-void GraphParams::WheelScale(qreal scale_factor, QPointF cursor_pos)
+void Parameters::WheelScale(qreal scale_factor, QPointF cursor_pos)
 {
     qreal pos_x = cursor_pos.x() - left_indent;
     qreal pos_y = cursor_pos.y() - top_indent;
@@ -165,31 +168,31 @@ void GraphParams::WheelScale(qreal scale_factor, QPointF cursor_pos)
 }
 
 
-void GraphParams::SetTopIndent(qreal indent) noexcept
+void Parameters::SetTopIndent(qreal indent) noexcept
 {
     graph_height += top_indent - indent;
     top_indent = indent;
 }
 
-void GraphParams::SetBottomIndent(qreal indent) noexcept
+void Parameters::SetBottomIndent(qreal indent) noexcept
 {
     graph_height += bottom_indent - indent;
     bottom_indent = indent;
 }
 
-void GraphParams::SetLeftIndent(qreal indent) noexcept
+void Parameters::SetLeftIndent(qreal indent) noexcept
 {
     graph_width += left_indent - indent;
     left_indent = indent;
 }
 
-void GraphParams::SetRightIndent(qreal indent) noexcept
+void Parameters::SetRightIndent(qreal indent) noexcept
 {
     graph_width += right_indent - indent;
     right_indent = indent;
 }
 
-void GraphParams::SetIndents(qreal t_indent, qreal b_indent,
+void Parameters::SetIndents(qreal t_indent, qreal b_indent,
                             qreal l_indent, qreal r_indent) noexcept
 {
     graph_height += top_indent + bottom_indent - t_indent - b_indent;

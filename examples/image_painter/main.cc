@@ -2,16 +2,16 @@
 
 int main(int argc, char *argv[])
 {
-    s21::ImagePainter painter(QSize(1000, 1000), argc, argv);
+    Graph::ImagePainter painter(QSize(1000, 1000), 0, argv);
 
-    s21::Graph::data_t data1 = {
+    Graph::data_t data1 = {
         {0, 0},
         {1, 1},
         {2, 2},
         {3, 3},
         {4, 4}
     };
-    s21::Graph::data_t data2 = {
+    Graph::data_t data2 = {
         {0, 0},
         {1, 1},
         {2, 0},
@@ -19,13 +19,13 @@ int main(int argc, char *argv[])
         {4, 0},
         {5, 1}
     };
-    s21::Graph::data_t data3 = {
+    Graph::data_t data3 = {
         {-2, 2},
         {0, 2},
         {2, 2},
         {4, 2},
     };
-    s21::Graph::data_t data4 = {
+    Graph::data_t data4 = {
         {0, 0},
         {3, 7},
         {4, -1},
@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
     painter.AddGraph(std::move(data3), "data3");
     painter.AddGraph(std::move(data4), "data4");
 
-    painter.GetBackground().SetXTextFunc(s21::Background::NumberFormat);
+    painter.GetBackground().SetXTextFunc(Graph::Background::NumberFormat);
 
     painter.SavePng("test.png");
 

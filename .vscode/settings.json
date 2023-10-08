@@ -67,6 +67,15 @@
         "cinttypes": "cpp",
         "variant": "cpp",
         "semaphore": "cpp",
-        "qguiapplication": "cpp"
-    }
+        "qguiapplication": "cpp",
+        "qgestureevent": "cpp",
+        "qkeyevent": "cpp",
+        "qlabel": "cpp",
+        "qgridlayout": "cpp",
+        "qwidget": "cpp",
+        "bitset": "cpp",
+        "span": "cpp",
+        "qradiobutton": "cpp"
+    },
+    "cmake.sourceDirectory": "/home/alexey/projects/Graph/examples/graph_widget_frame"
 }

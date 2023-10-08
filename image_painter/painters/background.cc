@@ -1,19 +1,20 @@
 
 #include "background.h"
 
-using namespace s21;
+using namespace Graph;
 
-Background::Background(GraphParams &params,
+Background::Background(Parameters &params,
                 const QColor &color,
                 const QPen &axes_pen,
                 const QPen &grid_pen,
                 const QFont &text_font,
                 QImage::Format format)
-    : AbsImage(params, "Background", params.Size(), format)
+    : AbstractPainter(params, "Background", params.Size(), format)
     , color_(color)
     , axes_pen_(axes_pen)
     , grid_pen_(grid_pen)
     , text_font_(text_font)
+    , text_pen_(axes_pen)
     {}
 
 void Background::Draw()
@@ -52,7 +53,8 @@ void Background::Draw()
     }
     if (show_text_)
     {
-        painter_.setPen(axes_pen_);
+        // std::cout << GetVerticalGridStep() << ' ' << GetHorizontalGridStep() << " aaa\n";
+        painter_.setPen(text_pen_);
         painter_.setFont(text_font_);
         if (vertical_grid_)
         {
@@ -72,7 +74,7 @@ void Background::Draw()
             for (unsigned i = min; i < max; i += horizontal_grid_step_)
             {
                 painter_.drawText(left_text_indent_, i + 5,
-                                y_text_func_(p_.YToDataCords(i + 5)));
+                                y_text_func_(p_.YToDataCords(i)));
             }
         }
     }
@@ -89,51 +91,85 @@ QString Background::DateFormatSec(double n)
 QString Background::DateFormatDay(double n)
     { return QDateTime::fromSecsSinceEpoch(n * 60 * 60 * 24).toString("yyyy-MM-dd"); }
 
-
 void Background::SetAxes(bool axes) noexcept
-    { axes_ = axes; }
+    { Setter(axes_, axes); }
+
+void Background::SetColor(const QColor &color) noexcept
+    { Setter(color_, color); }
 
 void Background::SetHorizontalGrid(bool grid) noexcept
-    { horizontal_grid_ = grid; }
+    { Setter(horizontal_grid_, grid); }
 
 void Background::SetVerticalGrid(bool grid) noexcept
-    { vertical_grid_ = grid; }
+    { Setter(vertical_grid_, grid); }
 
 void Background::SetGrid(bool grid) noexcept
 {
+    if (horizontal_grid_ == grid && vertical_grid_ == grid)
+        return;
     horizontal_grid_ = grid;
     vertical_grid_ = grid;
+    Draw();
 }
 
 void Background::SetShowText(bool show) noexcept
-    { show_text_ = show; }
+    { Setter(show_text_, show); }
 
 void Background::SetVerticalGridStep(qreal step) noexcept
-    { vertical_grid_step_ = step; }
+    { Setter(vertical_grid_step_, p_.XStepToImageCords(step)); }
 
 void Background::SetHorizontalGridStep(qreal step) noexcept
-    { horizontal_grid_step_ = step; }
+    { 
+        Setter(horizontal_grid_step_, p_.YStepToImageCords(step));
+    }
 
 void Background::SetBottomTextIndent(qreal indent) noexcept
-    { bottom_text_indent_ = indent; }
+    { Setter(bottom_text_indent_, indent); }
 
 void Background::SetLeftTextIndent(qreal indent) noexcept
-    { left_text_indent_ = indent; }
+    { Setter(left_text_indent_, indent); }
 
 void Background::SetAxesPen(const QPen &pen) noexcept
-    { axes_pen_ = pen; }
+    { Setter(axes_pen_, pen); }
 
 void Background::SetGridPen(const QPen &pen) noexcept
-    { grid_pen_ = pen; }
+    { Setter(grid_pen_, pen); }
 
 void Background::SetTextFont(const QFont &font) noexcept
-    { text_font_ = font; }
+    { Setter(text_font_, font); }
 
 void Background::SetXTextFunc(const TextFunc &func) noexcept
-    { x_text_func_ = func; }
+{
+    x_text_func_ = func;
+    Draw();
+}
 
 void Background::SetYTextFunc(const TextFunc &func) noexcept
-    { y_text_func_ = func; }
+{
+    y_text_func_ = func;
+    Draw();
+}
 
-QFont &Background::GetTextFont() noexcept
+void Background::SetTextPen(const QPen &pen) noexcept
+    { Setter(text_pen_, pen); }
+
+const QFont &Background::GetTextFont() const noexcept
     { return text_font_; }
+
+const QColor &Background::GetColor() const noexcept
+    { return color_; }
+
+const QPen &Background::GetAxesPen() const noexcept
+    { return axes_pen_; }
+
+const QPen &Background::GetGridPen() const noexcept
+    { return grid_pen_; }
+
+const QPen &Background::GetTextPen() const noexcept
+    { return text_pen_; }
+
+qreal Background::GetHorizontalGridStep() const noexcept
+    { return p_.YStepToDataCords(horizontal_grid_step_); }
+
+qreal Background::GetVerticalGridStep() const noexcept
+    { return p_.XStepToDataCords(vertical_grid_step_); }

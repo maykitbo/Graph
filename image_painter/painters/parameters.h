@@ -7,21 +7,15 @@
 
 #include <iostream>
 
-namespace s21 {
+namespace Graph {
 
-struct MinMax
-{
-    qreal x_min{0};
-    qreal x_max{0};
-    qreal y_min{0};
-    qreal y_max{0};
-};
+typedef std::vector<std::pair<double, double>> data_t;
 
-class GraphParams
+class Parameters
 {
     public:
-        GraphParams() = default;
-        GraphParams(QSize size);
+        Parameters() = default;
+        Parameters(QSize size);
 
         QSize GraphSize() const noexcept;
 
@@ -29,6 +23,12 @@ class GraphParams
         qreal YToImageCords(double y) const noexcept;
         double XToDataCords(qreal x) const noexcept;
         double YToDataCords(qreal y) const noexcept;
+        qreal XStepToImageCords(double step) const noexcept;
+        double XStepToDataCords(qreal step) const noexcept;
+        qreal YStepToImageCords(double step) const noexcept;
+        double YStepToDataCords(qreal step) const noexcept;
+        qreal GetXDistance() const noexcept;
+        qreal GetYDistance() const noexcept;
 
         void SetTopIndent(qreal indent) noexcept;
         void SetBottomIndent(qreal indent) noexcept;
@@ -85,4 +85,4 @@ class GraphParams
 };
 
 
-} // namespace s21
+} // namespace Graph

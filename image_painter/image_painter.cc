@@ -1,17 +1,17 @@
 #include "image_painter.h"
 
-using namespace s21;
+using namespace Graph;
 
 
 ImagePainter::ImagePainter(const QSize &size, int argc, char *argv[])
-    : app_(argc, argv)
+    : app_(argc, static_cast<char**>(nullptr))
     , p_(size)
     , background_(p_)
 {
     p_.SetTopIndent(40);
 }
 
-Graph &ImagePainter::AddGraph(const Graph::data_t &data,
+Painter &ImagePainter::AddGraph(const data_t &data,
                 const QString &name,
                 const QPen &graph_pen)
 {
@@ -19,7 +19,7 @@ Graph &ImagePainter::AddGraph(const Graph::data_t &data,
     return graphs_.back();
 }
 
-Graph &ImagePainter::AddGraph(Graph::data_t &&data,
+Painter &ImagePainter::AddGraph(data_t &&data,
                 const QString &name,
                 const QPen &graph_pen)
 {
@@ -27,25 +27,25 @@ Graph &ImagePainter::AddGraph(Graph::data_t &&data,
     return graphs_.back();
 }
 
-Graph &ImagePainter::AddGraph(const Graph::data_t &data, const QString &name)
+Painter &ImagePainter::AddGraph(const data_t &data, const QString &name)
 {
-    if (graphs_.size() >= colors_.size())
+    if (graphs_.size() >= colors_.c.size())
     {
         std::cerr << "Warning: more graphs than colors, graph will be red\n";
         graphs_.emplace_back(p_, name, data, QPen(Qt::red));
     }
-    graphs_.emplace_back(p_, name, data, QPen(colors_[graphs_.size()]));
+    graphs_.emplace_back(p_, name, data, QPen(colors_.c[graphs_.size()]));
     return graphs_.back();
 }
 
-Graph &ImagePainter::AddGraph(Graph::data_t &&data, const QString &name)
+Painter &ImagePainter::AddGraph(data_t &&data, const QString &name)
 {
-    if (graphs_.size() >= colors_.size())
+    if (graphs_.size() >= colors_.c.size())
     {
         std::cerr << "Warning: more graphs than colors, graph will be red\n";
         graphs_.emplace_back(p_, name, data, QPen(Qt::red));
     }
-    graphs_.emplace_back(p_, name, std::move(data), QPen(colors_[graphs_.size()]));
+    graphs_.emplace_back(p_, name, std::move(data), QPen(colors_.c[graphs_.size()]));
     return graphs_.back();
 }
 
@@ -54,12 +54,12 @@ void ImagePainter::ReserveGraphs(unsigned size)
     graphs_.reserve(size);
 }
 
-void ImagePainter::AddGraph(const Graph &graph)
+void ImagePainter::AddGraph(const Painter &graph)
 {
     graphs_.push_back(graph);
 }
 
-void ImagePainter::AddGraph(Graph &&graph)
+void ImagePainter::AddGraph(Painter &&graph)
 {
     graphs_.push_back(graph);
 }
@@ -115,7 +115,7 @@ void ImagePainter::OpenPng(const QString &path)
 Background &ImagePainter::GetBackground()
     { return background_; }
 
-Graph &ImagePainter::operator[](unsigned index)
+Painter &ImagePainter::operator[](unsigned index)
 {
     if (index >= graphs_.size())
         throw std::out_of_range("Graph index out of range");

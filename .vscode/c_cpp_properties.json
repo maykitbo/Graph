@@ -4,9 +4,14 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
+                "${workspaceFolder}/*/*",
+                "${workspaceFolder}/*/*/*",
+                "${workspaceFolder}/*/*/*/*",
+                "${workspaceFolder}/examples/graph_widget_frame/include/graph_widget_frame/graph_widget_frame_autogen/include/",
                 "/usr/include/x86_64-linux-gnu/qt6/QtCore",
                 "/usr/include/x86_64-linux-gnu/qt6",
-                "/usr/include/x86_64-linux-gnu/qt6/QtGui"
+                "/usr/include/x86_64-linux-gnu/qt6/QtGui",
+                "/usr/include/x86_64-linux-gnu/qt6/QtWidgets",
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",
